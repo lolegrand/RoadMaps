@@ -1,0 +1,14 @@
+{
+  "name": "roadmap-explorer",
+  "version": "1.0.0",
+  "description": "Visualiseur de roadmaps technologiques",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "js-yaml": "^4.1.0"
+  }
+}

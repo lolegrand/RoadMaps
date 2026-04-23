@@ -1,0 +1,746 @@
+/* ==========================================
+   ROADMAP EXPLORER — Light Theme
+   ========================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:            #eef2ff;
+  --bg-grad:       linear-gradient(145deg, #eef2ff 0%, #f0f9ff 60%, #fafafa 100%);
+  --surface:       #ffffff;
+  --surface2:      #f8fafc;
+  --surface3:      #f1f5f9;
+  --border:        rgba(15, 23, 42, 0.09);
+  --border-strong: rgba(15, 23, 42, 0.16);
+
+  --text:       #0f172a;
+  --text-2:     #334155;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+
+  --accent:       #4f46e5;
+  --accent-dark:  #4338ca;
+  --accent-light: #eef2ff;
+  --accent-ring:  #c7d2fe;
+  --accent-glow:  rgba(79, 70, 229, 0.18);
+
+  --green:        #16a34a;
+  --green-light:  #dcfce7;
+  --green-ring:   #86efac;
+  --green-glow:   rgba(22, 163, 74, 0.2);
+
+  --red:          #dc2626;
+  --red-light:    #fee2e2;
+
+  --shadow-xs: 0 1px 2px rgba(15,23,42,.04);
+  --shadow-sm: 0 1px 4px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.03);
+  --shadow:    0 4px 14px rgba(15,23,42,.07), 0 2px 4px rgba(15,23,42,.04);
+  --shadow-lg: 0 12px 32px rgba(15,23,42,.10), 0 4px 8px rgba(15,23,42,.05);
+  --shadow-xl: 0 24px 52px rgba(15,23,42,.12), 0 8px 16px rgba(15,23,42,.06);
+  --shadow-panel: -8px 0 40px rgba(15,23,42,.12), -2px 0 8px rgba(15,23,42,.06);
+
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+
+  --panel-w:  420px;
+  --topbar-h: 56px;
+
+  --spring:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+body {
+  height: 100vh;
+  background: var(--bg-grad);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { height: 100vh; }
+
+/* ==========================================
+   HOME
+   ========================================== */
+
+.home-view {
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 24px 48px;
+  gap: 56px;
+}
+
+.home-header {
+  text-align: center;
+  animation: fadeUp 0.6s var(--spring) both;
+}
+
+.home-logo {
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 20px var(--accent-glow);
+  font-size: 24px;
+}
+
+.home-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.home-header h1 span {
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-header p {
+  color: var(--text-muted);
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+/* Grid */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 920px;
+}
+
+/* Card */
+.roadmap-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  animation: cardIn 0.5s var(--spring) both;
+  animation-delay: var(--delay, 0ms);
+  transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease-out), border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-light) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.roadmap-card:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-ring);
+}
+
+.roadmap-card:hover::before { opacity: 1; }
+
+.roadmap-card:active { transform: translateY(-2px) scale(1.002); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.card-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.roadmap-card p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  position: relative;
+}
+
+.card-arrow {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  opacity: 0;
+  color: var(--accent);
+  font-size: 18px;
+  transition: opacity 0.2s ease, transform 0.2s var(--spring);
+}
+
+.roadmap-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Empty/loading states */
+.state-msg {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 24px;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.9rem;
+  animation: fadeUp 0.4s var(--spring) both;
+}
+
+.state-msg .icon { font-size: 2rem; opacity: 0.4; }
+.state-msg code {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.82em;
+  color: var(--text-2);
+}
+.state-error { color: var(--red); }
+
+/* ==========================================
+   MAP VIEW
+   ========================================== */
+
+.map-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  animation: fadeIn 0.3s ease both;
+}
+
+/* Topbar */
+.topbar {
+  height: var(--topbar-h);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 14px;
+  flex-shrink: 0;
+  z-index: 20;
+  box-shadow: var(--shadow-xs);
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  border-radius: var(--r-sm);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s var(--spring);
+}
+
+.back-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-ring);
+  color: var(--accent);
+  transform: translateX(-2px);
+}
+
+.back-btn:active { transform: translateX(0); }
+
+.topbar-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-strong);
+  flex-shrink: 0;
+}
+
+.topbar-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  flex: 1;
+  color: var(--text);
+}
+
+.topbar-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--green-light);
+  color: var(--green);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  transition: background 0.3s ease;
+}
+
+.stat-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+/* ==========================================
+   MAP BODY & MINDMAP
+   ========================================== */
+
+.map-body {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+#mindmap-container {
+  width: 100%;
+  height: 100%;
+  /* Subtle dot grid */
+  background-color: #f8faff;
+  background-image: radial-gradient(circle, #c7d2fe 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+#mindmap {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  display: block;
+}
+
+#mindmap:active { cursor: grabbing; }
+
+/* SVG elements */
+.link {
+  fill: none;
+  stroke: #c7d2fe;
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+}
+
+.node { cursor: pointer; }
+
+.node text {
+  pointer-events: none;
+  user-select: none;
+  fill: var(--text-2);
+  font-family: inherit;
+}
+
+/* ==========================================
+   SIDE PANEL
+   ========================================== */
+
+.side-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--panel-w);
+  max-width: 92vw;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateX(102%);
+  transition: transform 0.32s var(--spring);
+  z-index: 15;
+  box-shadow: var(--shadow-panel);
+}
+
+.side-panel.open { transform: translateX(0); }
+
+.panel-header {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.panel-title {
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  word-break: break-word;
+  color: var(--text);
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.explored-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 0.77rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s var(--spring);
+}
+
+.explored-toggle:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-light);
+}
+
+.explored-toggle.active {
+  background: var(--green-light);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.explored-toggle.active:hover {
+  background: #bbf7d0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.close-btn:hover { color: var(--text); background: var(--surface3); }
+
+/* Panel content */
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 20px;
+  transition: opacity 0.2s ease, transform 0.2s var(--spring);
+}
+
+.panel-content.fading {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* Markdown styles */
+.panel-content h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 14px;
+  line-height: 1.3;
+}
+
+.panel-content h2 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin: 22px 0 8px;
+}
+
+.panel-content h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 16px 0 6px;
+}
+
+.panel-content p {
+  font-size: 0.88rem;
+  line-height: 1.72;
+  color: var(--text-2);
+  margin-bottom: 12px;
+}
+
+.panel-content ul, .panel-content ol {
+  padding-left: 18px;
+  margin-bottom: 12px;
+}
+
+.panel-content li {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin-bottom: 3px;
+}
+
+.panel-content a { color: var(--accent); text-decoration: none; }
+.panel-content a:hover { text-decoration: underline; }
+
+.panel-content strong { color: var(--text); font-weight: 600; }
+
+.panel-content pre {
+  margin: 14px 0;
+  border-radius: var(--r-sm);
+  overflow-x: auto;
+  font-size: 0.81rem;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.panel-content pre code {
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+}
+
+.panel-content code:not(pre code) {
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 0.83em;
+  color: var(--accent-dark);
+  font-family: "JetBrains Mono", monospace;
+}
+
+.panel-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 0.83rem;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.panel-content th {
+  background: var(--surface3);
+  padding: 7px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.panel-content td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+}
+
+.panel-content tr:last-child td { border-bottom: none; }
+.panel-content tr:nth-child(even) td { background: var(--surface2); }
+
+.panel-content blockquote {
+  border-left: 3px solid var(--accent-ring);
+  background: var(--accent-light);
+  padding: 10px 14px;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  margin: 12px 0;
+  color: var(--text-2);
+  font-size: 0.88rem;
+}
+
+.panel-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+/* ==========================================
+   SCROLLBARS
+   ========================================== */
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(22px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0.85); opacity: 0; }
+  70%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================
+   THEME TOGGLE BUTTON
+   ========================================== */
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--surface2);
+  cursor: pointer;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s var(--spring), box-shadow 0.2s ease;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-ring);
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94) rotate(0deg);
+}
+
+/* Show sun in dark mode, moon in light mode */
+.theme-toggle .icon-moon { display: inline; }
+.theme-toggle .icon-sun  { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun  { display: inline; }
+
+/* ==========================================
+   DARK THEME
+   ========================================== */
+
+[data-theme="dark"] {
+  --bg-grad:       linear-gradient(145deg, #0b1120 0%, #0f172a 60%, #111827 100%);
+  --surface:       #1e2d3d;
+  --surface2:      #162030;
+  --surface3:      #0f1923;
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.13);
+
+  --text:       #f0f6fc;
+  --text-2:     #c9d1d9;
+  --text-muted: #8b949e;
+  --text-faint: #6e7681;
+
+  --accent:       #818cf8;
+  --accent-dark:  #6366f1;
+  --accent-light: rgba(99, 102, 241, 0.15);
+  --accent-ring:  rgba(129, 140, 248, 0.4);
+  --accent-glow:  rgba(129, 140, 248, 0.25);
+
+  --green:        #4ade80;
+  --green-light:  rgba(74, 222, 128, 0.12);
+  --green-ring:   rgba(74, 222, 128, 0.35);
+  --green-glow:   rgba(74, 222, 128, 0.2);
+
+  --red:          #f87171;
+  --red-light:    rgba(248, 113, 113, 0.15);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.25);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+  --shadow:    0 4px 14px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.2);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.4), 0 4px 8px rgba(0,0,0,.25);
+  --shadow-xl: 0 24px 52px rgba(0,0,0,.5), 0 8px 16px rgba(0,0,0,.3);
+  --shadow-panel: -8px 0 40px rgba(0,0,0,.5), -2px 0 8px rgba(0,0,0,.3);
+}
+
+/* Dark mode: mindmap canvas */
+[data-theme="dark"] #mindmap-container {
+  background-color: #0d1b2a;
+  background-image: radial-gradient(circle, #182436 1px, transparent 1px);
+}
+
+/* Dark mode: topbar blur background */
+[data-theme="dark"] .topbar {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* Dark mode: card gradient overlay */
+[data-theme="dark"] .roadmap-card::before {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+}
+
+/* Smooth transition when switching theme */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease !important;
+}
